@@ -1,0 +1,7 @@
+# Local files: the kit builds what git tracks plus the untracked files git does not ignore, so keep these out.
+# Keys for local runs (--env-file) stay out of git and out of the build.
+*.env
+.venv/
+__pycache__/
+*.pyc
+runs/
