@@ -1,7 +1,7 @@
 # OmniMind-PE-Auditor: Closing the Institutional Verification Gap in Physical-Engineering Agents
 
 - Repo: https://github.com/fahbrain-omnimind/ple_omnimind_harness
-- Commit SHA: d47b4465eb01e025dffc5899d932898eb2176d75
+- Commit SHA: dbffca67949820d95ba133e8b7ea081bab4d5d74
 - Primary model_api: google-cloud/gemini-3.8-flash
 - Other models tested: google-cloud/gemini-3.1-pro-preview, google-cloud/gemma-4-26b, google-cloud/claude-opus-5-5
 - Dev score (29 tasks): 0.204 | $0.024/task | 4.8 min/task
@@ -18,6 +18,8 @@ Frontier foundation models readily produce comprehensive calculations, CAD drawi
 * **Deterministic Audit Intervention**: Introducing a deterministic post-execution Professional Engineer (PE) Auditor in the container to scale EGC cross-sections proportionately and synchronize cost ledger schemas elevated the hard constraint pass rate from 84% to 100% ($G=1.0$), driving dev score from 0.1397 to **0.2041 (+46.1%)** while exceeding the Stage 2 Pareto threshold (0.138).
 
 ### 1.1 Failure Breakdown
+
+![Figure 1: Dev-Set Failure Breakdown by Discipline and Type](https://raw.githubusercontent.com/fahbrain-omnimind/ple_omnimind_harness/master/figures/figure3_failure_breakdown.png)
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -54,6 +56,8 @@ Frontier foundation models readily produce comprehensive calculations, CAD drawi
 ---
 
 ## 2. Architecture & Reasoning (25 pts)
+
+![Figure 2: Two-Stage Autonomous Engineering Architecture Diagram](https://raw.githubusercontent.com/fahbrain-omnimind/ple_omnimind_harness/master/figures/figure1_architecture_diagram.png)
 
 ```
 +----------------------------------------------------------------------------------------------------+
@@ -131,6 +135,8 @@ We evaluated performance, latency, and cost across Google-sponsored models avail
 ---
 
 ## 4. Efficiency & Scaling (20 pts)
+
+![Figure 3: Score vs Cost Pareto Frontier](https://raw.githubusercontent.com/fahbrain-omnimind/ple_omnimind_harness/master/figures/figure2_pareto_frontier.png)
 
 ```
 +----------------------------------------------------------------------------------------------------+
