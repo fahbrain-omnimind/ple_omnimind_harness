@@ -4,7 +4,7 @@
 **Track**: Stage 1 Engineering Agent Harness & Writeup  
 **Team**: OmniMind Sovereign / Fabrício da Silva  
 **Repository**: `https://github.com/fahbrain-omnimind/ple_omnimind_harness`  
-**Commit SHA**: `f9c1ad76c67b2f30e794b6e2550e652f8eb3ac1c`  
+**Commit SHA**: `HEAD` (Current repository commit)  
 **Target Model API**: `google-cloud/gemini-3.8-flash`  
 
 ---
