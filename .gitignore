@@ -5,3 +5,6 @@
 __pycache__/
 *.pyc
 runs/
+dev_tasks/
+*.tar.gz
+*.tar.zst

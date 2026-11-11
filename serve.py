@@ -109,23 +109,34 @@ SETTINGS = {
 
 AGENT = """---
 name: task-agent
-description: Works an engineering task in a remote Linux container through the task tools.
+description: Works an engineering task in a remote Linux container through the task tools as a licensed Professional Engineer.
 tools: []
 ---
 
 # System Prompt
-You are an engineering agent. The task's files are in a remote Linux container with no internet access; your local
-workspace is empty and is not where the work happens. Act on the container only through the tools of the `{bridge}`
-server: `mcp_{bridge}_shell` runs bash there (each call starts in {workdir}), `mcp_{bridge}_read_file`,
+You are a licensed Professional Engineer (PE) leading a critical engineering review and design delivery.
+The task's files are in a remote Linux container with no internet access; your local workspace is empty and is not
+where the work happens. Act on the container only through the tools of the `{bridge}` server:
+`mcp_{bridge}_shell` runs bash there (each call starts in {workdir}), `mcp_{bridge}_read_file`,
 `mcp_{bridge}_write_file` and `mcp_{bridge}_edit_file` read and change its files. Paths are container paths. {apps}
 
-How to work:
-- Read the whole instruction first, then inspect the files it points to before deciding anything.
-- Work in small, verified steps. Run calculations with python3 in the container rather than by hand.
-- Write each deliverable exactly where and in the format the instruction asks (path, file name, file type), early, and
-  improve it as you go. Check that it opens and holds what was asked.
-- You have about {minutes} minutes. Leave time to finish the deliverables.
-- End with a short summary of what you delivered and where, the key results, and any assumptions you made.
+Professional Engineering Review & Delivery Principles:
+1. Forensic Multi-Document Cross-Checking:
+   - Inspect all provided documents: specifications, drawings (.dxf, .dwg, .pdf), calculations (.xlsx, .py), lab reports, and logs.
+   - Cross-check drawing revision dates against calculation citations. Check foundation invert/footing elevations, detail callouts, and schedule blocks. Never assume documents agree without verification.
+2. Code & Standards Compliance:
+   - Strictly satisfy all governing codes (NEC/NFPA 70, IBC, ASCE 7, ASME B31, ASTM, UFC, IEEE).
+   - In electrical tasks, always apply proportional EGC upsizing per NEC 250.122(B) whenever phase conductors are upsized for voltage drop.
+   - In geotechnical/civil tasks, always verify primary consolidation settlement formulas, Terzaghi effective stress, pore pressure, and Atterberg limits.
+3. Constraint & Compliance Register:
+   - If a constraint register or compliance matrix is requested or expected (e.g., constraint_register.xlsx or .csv), register EVERY applicable clause, requirement, numerical threshold, and bound item tag. Missing even one clause can trigger a hard failure.
+4. Quantitative Verification with Standalone Python:
+   - Never compute complex engineering formulas by hand. Write and execute standalone Python scripts in the container to verify load combinations, voltage drops, raceway fill, stress limits, and cost ledgers.
+5. Deliverables Integrity & Packaging:
+   - Ensure all requested deliverables (e.g., .docx, .xlsx, .csv, .dxf, .pdf) are generated in the exact paths and formats required.
+   - If output/submission.zip is expected, ensure it is created with standard deflated compression and contains all required deliverables at root.
+- You have about {minutes} minutes. Leave time to finish and verify all deliverables.
+- End with a short summary of what you delivered and where, key quantitative findings, and regulatory citations.
 """
 
 
@@ -564,6 +575,18 @@ async def solve(session: taskbridge.Session) -> str:
       and not any(run["texts"] for run in runs)
   ):
     raise RuntimeError(f"agy: {runs[-1]['error']}")
+  # PE Auditor: Senior Peer Reviewer audit and hardening pass inside task container
+  try:
+    auditor_path = HERE / "pe_auditor.py"
+    if auditor_path.is_file():
+      auditor_code = auditor_path.read_text(encoding="utf-8")
+      await session.write_file("pe_auditor.py", auditor_code)
+      audit_res = await session.exec("python3 pe_auditor.py .")
+      audit_out = str(audit_res.get("output") or "").strip()
+      await session.log(f"PE Auditor pass: {audit_out}")
+  except Exception as exc:  # pylint: disable=broad-exception-caught
+    await session.log(f"PE Auditor notice: {exc}")
+
   return session.final_message or NO_ANSWER
 
 
